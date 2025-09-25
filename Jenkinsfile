@@ -1,33 +1,33 @@
-pipeline {
+pipeline{
     agent any
     environment {
-                PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+            PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
 
-                // Define Docker Hub credentials ID
-                DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
-                // Define Docker Hub repository name
-                DOCKERHUB_REPO = 'amirdirin/week6_livedemo_sep3'
-                // Define Docker image tag
-                DOCKER_IMAGE_TAG = 'latest'
-            }
-     tools {
+            // Define Docker Hub credentials ID
+            DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
+            // Define Docker Hub repository name
+            DOCKERHUB_REPO = 'amirdirin/week6_livedemo_sep4'
+            // Define Docker image tag
+            DOCKER_IMAGE_TAG = 'latest'
+        }
+
+    tools{
         maven 'Maven3'
-     }
-
-     stages {
-        stage ('checking'){
-            steps {
-                git branch:'master', url: 'https://github.com/ADirin/livedemo2_week6_sep1.git'
+    }
+    stages{
+        stage('checking'){
+            steps{
+                git branch:'master', url:'https://github.com/ADirin/livedemo2_week6_sep1.git'
             }
         }
 
-       stage ('build') {
+        stage ('build'){
             steps {
-                bat 'mvn clean install'
+              bat  'mvn clean install'
             }
-       }
+        }
 
-        stage('Test') {
+  stage('Test') {
             steps {
                 bat 'mvn test'
             }
@@ -47,7 +47,7 @@ pipeline {
                 jacoco()
             }
         }
-stage('Build Docker Image') {
+        stage('Build Docker Image') {
                     steps {
                         bat 'docker build -t %DOCKERHUB_REPO%:%DOCKER_IMAGE_TAG% .'
                     }
@@ -62,8 +62,9 @@ stage('Build Docker Image') {
                             '''
                         }
                     }
-
                 }
-}
-}
+
+    }
+
+
 }
